@@ -16,7 +16,7 @@ defineOgImageComponent('About', {
   headline: 'Greetings 👋',
   title: 'Hendi\'s Blog',
   description: 'Dive into web development with me and learn Js, Ts, Vue, Nuxt, Docker, k8s',
-  link: '/hendi.jpg',
+  link: '/assets/images/hendi.jpeg',
 })
 </script>
 
