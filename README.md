@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://blog.nurriyad.xyz" target="_blank">
+  <a href="https://blog.hendisantika.my.id" target="_blank">
     <img  src="./assets/images/dark.png">
   </a>
 </p>
@@ -30,7 +30,7 @@ with [Nuxt3](https://nuxt.com), [Nuxt-Content2](https://content.nuxtjs.org/blog/
 ## Preview
 
 <p align="center">
-  <a href="https://blog.nurriyad.xyz" target="_blank">
+  <a href="https://blog.hendisantika.my.id" target="_blank">
     <img width="1090" src="./assets/images/preview1.png">
     <img width="1090" src="./assets/images/preview2.png">
     <img width="1090" src="./assets/images/preview3.png">
@@ -42,7 +42,7 @@ with [Nuxt3](https://nuxt.com), [Nuxt-Content2](https://content.nuxtjs.org/blog/
 
 ## Demo
 
-https://blog.nurriyad.xyz
+https://blog.hendisantika.my.id
 
 > Hosted on [Vercel](https://vercel.com/): `npm run build`
 

@@ -16,7 +16,7 @@ function onClick(val: string) {
       <ul class="flex items-baseline space-x-5">
         <li class="text-base sm:text-2xl font-bold">
           <NuxtLink :class="{ underline: path === '' }" to="/">
-            Riyad's Blog
+            Hendi's Blog
           </NuxtLink>
         </li>
       </ul>

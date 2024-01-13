@@ -6,7 +6,7 @@
           Welcome To My Blog Site
         </h1>
         <p class="dark:text-zinc-300  ">
-          Get Web Development, Javascript, Typescript, NodeJs, Vue, and Nuxt, Related Articles,
+          Get Backend, Web Development, Laravel, Javascript, Typescript, NodeJs, Vue and Nuxt, Related Articles,
           Tips, Learning resources and more.
         </p>
       </div>
