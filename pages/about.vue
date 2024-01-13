@@ -76,7 +76,7 @@ defineOgImageComponent('About', {
           class="rounded-md"
           height="500"
           quality="50"
-          src="/riyad.jpg"
+          src="/hendi.jpeg
           width="450"
         />
       </div>
