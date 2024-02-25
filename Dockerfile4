@@ -1,0 +1,42 @@
+#FROM node:20.10-alpine as builder
+FROM node:20-alpine as hendi
+
+ENV NUXT_HOST=0.0.0.0
+ENV NUXT_PORT=3000
+
+RUN mkdir /app
+RUN chown -R node:node /app
+
+USER node
+
+WORKDIR /app
+
+COPY pnpm-lock.yaml package.json ./
+
+RUN npm install -g pnpm
+RUN pnpm install
+
+USER root
+
+COPY ./ /app
+RUN chown -R node:node /app
+
+USER node
+
+WORKDIR /app
+
+RUN cp -r /app/node_modules .
+
+RUN pnpm run app
+
+FROM node:20.10-alpine as runner
+
+COPY --from=hendi /app/.output /app
+
+USER node
+
+WORKDIR /app
+
+EXPOSE 3000
+
+CMD ["node", "/app/server/index.mjs"]

@@ -1,41 +1,21 @@
-FROM node:20.10-alpine as builder
-
+# Use an official Node.js, and it should be version 16 and above
+FROM node:20-alpine
 ENV NUXT_HOST=0.0.0.0
 ENV NUXT_PORT=3000
-
-RUN mkdir /build
-RUN chown -R node:node /build
-
-USER node
-
-WORKDIR /build
-
-COPY src/nuxt/package.json .
-COPY src/nuxt/yarn.lock .
-
-RUN yarn
-
-USER root
-
-COPY src/nuxt /app
-RUN chown -R node:node /app
-
-USER node
-
+# Set the working directory in the container
 WORKDIR /app
-
-RUN cp -r /build/node_modules .
-
-RUN yarn build
-
-FROM node:20.10-alpine as runner
-
-COPY --from=builder /app/.output /app
-
-USER node
-
-WORKDIR /app
-
+# Copy package.json and pnpm-lock.yaml
+COPY pnpm-lock.yaml package.json ./
+# Install app dependencies using PNPM
+RUN npm install -g pnpm
+# Install dependencies
+RUN pnpm i
+# Copy the application code
+COPY ./ /app
+# Build the TypeScript code
+RUN pnpm run build
+# Expose the app
 EXPOSE 3000
-
-CMD ["node", "/app/server/index.mjs"]
+# Start the application
+#CMD ["pnpm", "start"]
+CMD ["node", "/app/.output/server/index.mjs"]
