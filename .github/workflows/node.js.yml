@@ -158,17 +158,17 @@ jobs:
       #          recursive: true
       #          verbose: true
       #          dotfiles: true
-      - name: Copy script(s) to server
-        uses: garygrossgarten/github-action-scp@release
-        with:
-          local: ./scripts/deploy.sh
-          remote: /var/www/blog/
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          privateKey: ${{ secrets.SSH_PRIVATE_KEY }}
-          recursive: true
-          verbose: true
-          dotfiles: true
+      #      - name: Copy script(s) to server
+      #        uses: garygrossgarten/github-action-scp@release
+      #        with:
+      #          local: ./scripts/deploy.sh
+      #          remote: /var/www/blog/
+      #          host: ${{ secrets.SSH_HOST }}
+      #          username: ${{ secrets.SSH_USERNAME }}
+      #          privateKey: ${{ secrets.SSH_PRIVATE_KEY }}
+      #          recursive: true
+      #          verbose: true
+      #          dotfiles: true
 
       - name: Upload app-artifacts to remote folder
         uses: appleboy/scp-action@master
