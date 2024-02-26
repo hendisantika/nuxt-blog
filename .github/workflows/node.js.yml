@@ -161,7 +161,7 @@ jobs:
       - name: Copy script(s) to server
         uses: garygrossgarten/github-action-scp@release
         with:
-          local: /scripts/deploy.sh
+          local: ./scripts/deploy.sh
           remote: /var/www/blog/
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
