@@ -13,7 +13,7 @@ if [ "$(docker ps -qa -f name=$CONTAINER_NAME)" ]; then
     fi
 fi
 
-docker run -d --rm -p 3000:3000 --name $CONTAINER_NAME hendisantika/nuxt-blog:latest
+docker run -d --rm -p 3000:3000 --name $CONTAINER_NAME hendisantika/nuxt-blog:${DOCKER_CONTAINER_TAG}
 
 exit
 ENDSSH
