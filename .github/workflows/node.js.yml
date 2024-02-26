@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.0
 
       - name: Install Node.js
         uses: actions/setup-node@v4
@@ -177,8 +177,8 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           port: ${{ secrets.SSH_PORT }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "/scripts/deploy.sh"
-          target: "/var/www/blog/"
+          source: scripts/deploy.sh
+          target: /var/www/blog/
           strip_components: 1
 
       - name: Deploy the application
