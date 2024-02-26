@@ -147,17 +147,28 @@ jobs:
           git update-index --chmod=+x ./deploy.sh
           chmod +x ./deploy.sh
 
-      - name: SCP file to server
-        uses: garygrossgarten/github-action-scp@release
+      #      - name: SCP file to server
+      #        uses: garygrossgarten/github-action-scp@release
+      #        with:
+      #          local: deploy.sh
+      #          remote: /var/www/blog/
+      #          host: ${{ secrets.SSH_HOST }}
+      #          username: ${{ secrets.SSH_USER }}
+      #          privateKey: ${{ secrets.SSH_KEY }}
+      #          recursive: true
+      #          verbose: true
+      #          dotfiles: true
+
+      - name: Upload app-artifacts to remote folder
+        uses: appleboy/scp-action@master
         with:
-          local: deploy.sh
-          remote: /var/www/blog/
           host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          privateKey: ${{ secrets.SSH_KEY }}
-          recursive: true
-          verbose: true
-          dotfiles: true
+          username: ${{ secrets.SSH_USERNAME }}
+          port: ${{ secrets.SSH_PORT }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "deploy.sh"
+          target: "/var/www/blog/"
+          strip_components: 1
 
       - name: Deploy the application
         env:
