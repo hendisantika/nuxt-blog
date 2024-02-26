@@ -3,6 +3,9 @@ on:
   push:
     branches:
       - main
+env:
+  ENV_GITHUB: ${{ vars.ENV_GITHUB }}
+
 jobs:
   project-build:
     runs-on: ubuntu-latest
@@ -181,6 +184,20 @@ jobs:
           target: /var/www/blog/
           strip_components: 1
 
+      - name: Pull environment form variable
+        run: |
+          echo "$ENV_GITHUB" > .env_github
+
+      - id: dotenv_github
+        name: Read dotenv file for github env
+        uses: falti/dotenv-action@v1.0.4
+        with:
+          path: '.env_github'
+          export-variables: true
+          log-variables: false
+          mask-variables: true
+          keys-case: 'bypass'
+
       - name: Deploy the application
         env:
           SERVER_HOST: ${{ secrets.SSH_HOST }}
@@ -189,4 +206,5 @@ jobs:
           SERVER_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
           set -e
+          echo $DOCKER_CONTAINER_TAG
           ./scripts/deploy.sh
