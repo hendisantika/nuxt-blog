@@ -135,15 +135,35 @@ jobs:
       - docker-build
     steps:
       - uses: actions/checkout@v4
+
       - name: Add Server key
         run: |
           touch key.txt && echo "${{ secrets.SERVER_KEY }}" > key.txt
           chmod 600 key.txt
+
+      - name: Make executeable
+        run: |
+          git update-index --chmod=+x ./deploy.sh
+          chmod +x ./deploy.sh
+
+      - name: SCP file to server
+        uses: garygrossgarten/github-action-scp@release
+        with:
+          local: deploy.sh
+          remote: /var/www/blog/
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.SSH_USER }}
+          privateKey: ${{ secrets.SSH_KEY }}
+          recursive: true
+          verbose: true
+          dotfiles: true
+
       - name: Deploy the application
         env:
-          SERVER_HOST: ${{ secrets.SERVER_HOST }}
-          SERVER_PORT: ${{ secrets.SERVER_PORT }}
-          SERVER_USER: ${{ secrets.SERVER_USERNAME }}
+          SERVER_HOST: ${{ secrets.SSH_HOST }}
+          SERVER_PORT: ${{ secrets.SSH_PORT }}
+          SERVER_USER: ${{ secrets.SSH_USERNAME }}
+          SERVER_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
           set -e
           ./deploy.sh
