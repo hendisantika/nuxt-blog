@@ -3,7 +3,7 @@
 start=$(date +"%s")
 
 ssh -p ${SERVER_PORT} ${SERVER_USER}@${SERVER_HOST} -i key.txt -t -t -o StrictHostKeyChecking=no << 'ENDSSH'
-docker pull hendisantika/nuxt-blog:latest
+docker pull hendisantika/nuxt-blog:${DOCKER_CONTAINER_TAG}
 
 CONTAINER_NAME=nuxt-blog
 if [ "$(docker ps -qa -f name=$CONTAINER_NAME)" ]; then
