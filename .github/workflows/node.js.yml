@@ -151,7 +151,7 @@ jobs:
         with:
           local: deploy.sh
           remote: /var/www/blog/
-          host: ${{ secrets.HOST }}
+          host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           privateKey: ${{ secrets.SSH_KEY }}
           recursive: true
