@@ -135,11 +135,11 @@ jobs:
     needs:
       - docker-build
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.1.1
 
       - name: Add Server key
         run: |
-          touch key.txt && echo "${{ secrets.SERVER_KEY }}" > key.txt
+          touch key.txt && echo "${{ secrets.SSH_PRIVATE_KEY }}" > key.txt
           chmod 600 key.txt
 
       - name: Make executeable
