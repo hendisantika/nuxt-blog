@@ -11,36 +11,36 @@ env:
   IMAGE_NAME: ${{ github.actor }}/nuxt-blog:latest
 
 jobs:
-  docker-build:
-    name: Build Docker Image
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup AWS ECR Details
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{secrets.AWS_REGION}}
-
-      - name: Login to Amazon ECR
-        id: login-pf-aws-ecr
-        uses: aws-actions/amazon-ecr-login@v1
-
-      - name: Build and push the tagged docker image to Amazon ECR
-        env:
-          ECR_REGISTRY: ${{ steps.login-pf-aws-ecr.outputs.registry }}
-          ECR_REPOSITORY: ${{secrets.AWS_ECR_REPO}}
-          IMAGE_TAG: ${{ github.run_number }}
-        run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+  #  docker-build:
+  #    name: Build Docker Image
+  #    runs-on: ubuntu-latest
+  #    steps:
+  #      - name: Checkout
+  #        uses: actions/checkout@v4
+  #
+  #      - name: Setup AWS ECR Details
+  #        uses: aws-actions/configure-aws-credentials@v1
+  #        with:
+  #          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #          aws-region: ${{secrets.AWS_REGION}}
+  #
+  #      - name: Login to Amazon ECR
+  #        id: login-pf-aws-ecr
+  #        uses: aws-actions/amazon-ecr-login@v1
+  #
+  #      - name: Build and push the tagged docker image to Amazon ECR
+  #        env:
+  #          ECR_REGISTRY: ${{ steps.login-pf-aws-ecr.outputs.registry }}
+  #          ECR_REPOSITORY: ${{secrets.AWS_ECR_REPO}}
+  #          IMAGE_TAG: ${{ github.run_number }}
+  #        run: |
+  #          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+  #          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
   push-to-ecr:
     runs-on: ubuntu-latest
-    needs: docker-build
+    #    needs: docker-build
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -48,19 +48,27 @@ jobs:
       - run: docker build --tag hendi-blog:v1 .
 
       - name: Push to ECR
+        env:
+          ECR_REGISTRY: ${{ steps.login-pf-aws-ecr.outputs.registry }}
+          ECR_REPOSITORY: ${{secrets.AWS_ECR_REPO}}
+          IMAGE_TAG: ${{ github.run_number }}
         id: ecr
         uses: jwalton/gh-ecr-push@v1
         with:
           access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           region: ap-southeast-1
-          image: hendi-blog:v1
+          image: hendi-blog:$IMAGE_TAG
 
   pull-from-ecr:
     runs-on: ubuntu-latest
     needs: push-to-ecr
     steps:
       - name: Pull from ECR
+        env:
+          ECR_REGISTRY: ${{ steps.login-pf-aws-ecr.outputs.registry }}
+          ECR_REPOSITORY: ${{secrets.AWS_ECR_REPO}}
+          IMAGE_TAG: ${{ github.run_number }}
         id: ecr
         uses: jwalton/gh-ecr-push@v1
         with:
@@ -68,5 +76,5 @@ jobs:
           secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           region: ap-southeast-1
           image: my-image:dev-${{ github.sha }}
-          local-image: hendi-blog:v1
+          local-image: hendi-blog:$IMAGE_TAG
           direction: pull
