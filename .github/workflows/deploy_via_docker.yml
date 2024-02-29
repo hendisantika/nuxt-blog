@@ -54,9 +54,9 @@ jobs:
         with:
           local: docker-compose.yml
           remote: /var/www/blog/docker-compose.yml
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.SSH_USER }}
-          privateKey: ${{ secrets.SSH_KEY }}
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          privateKey: ${{ secrets.SSH_PRIVATE_KEY }}
           recursive: true
           verbose: true
           dotfiles: true
@@ -161,7 +161,7 @@ jobs:
       - name: install ssh keys
         run: |
           install -m 600 -D /dev/null ~/.ssh/id_rsa
-          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ secrets.HOST }} > ~/.ssh/known_hosts
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
       - name: connect and pull
-        run: ssh ${{ secrets.SSH_USER }}@${{ secrets.HOST }} "cd /var/www/blog && docker compose pull && docker compose up -d && exit"
+        run: ssh ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} "cd /var/www/blog && docker compose pull && docker compose up -d && exit"
