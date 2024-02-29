@@ -8,7 +8,7 @@ env:
   IMAGE_TAG: ${{ github.run_number }}
   CONTAINER_NAME: blog
   REGISTRY: docker.io
-  IMAGE_NAME: ${{ github.actor }}/blog-fe:latest
+  IMAGE_NAME: ${{ github.actor }}/nuxt-blog:latest
 
 jobs:
   docker-build:
@@ -49,6 +49,18 @@ jobs:
           #          cp .env.example .env
           pnpm run build
 
+      - name: Copy docker-compose.yml file to server
+        uses: garygrossgarten/github-action-scp@release
+        with:
+          local: docker-compose.yml
+          remote: /var/www/blog/docker-compose.yml
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.SSH_USER }}
+          privateKey: ${{ secrets.SSH_KEY }}
+          recursive: true
+          verbose: true
+          dotfiles: true
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 
@@ -71,7 +83,7 @@ jobs:
           file: Dockerfile
           push: true
           labels: ${{ steps.meta.outputs.labels }}
-          tags: hendisantika/dalim-fe:${{ github.run_number }}
+          tags: hendisantika/nuxt-blog:${{ github.run_number }}
           build-args: |
             GIT_VERSION_TAG=${{ env.RELEASE_VERSION }}
             GIT_COMMIT_MESSAGE=${{ github.event.head_commit.message }}
@@ -147,8 +159,6 @@ jobs:
 
     steps:
       - name: install ssh keys
-        # check this thread to understand why its needed:
-        # <https://stackoverflow.com/a/70447517>
         run: |
           install -m 600 -D /dev/null ~/.ssh/id_rsa
           echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
