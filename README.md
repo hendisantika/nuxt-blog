@@ -37,7 +37,8 @@ with [Nuxt3](https://nuxt.com), [Nuxt-Content2](https://content.nuxtjs.org/blog/
     <img width="1090" src="./assets/images/blog_white.png">
     <img width="1090" src="./assets/images/Blog-Archive.png">
     <img width="1090" src="./assets/images/categories_black.png">
-    <img width="1090" src="./assets/images/categories_white.png">
+    <img width="1090" src="./assets/images/about_black.png">
+    <img width="1090" src="./assets/images/about_white.png">
     <br>
     Live Demo
   </a>
