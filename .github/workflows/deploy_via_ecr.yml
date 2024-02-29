@@ -1,0 +1,39 @@
+name: Deploy Blog via Docker
+on:
+  push:
+    branches:
+      - main
+env:
+  ENV_GITHUB: ${{ vars.ENV_GITHUB }}
+  IMAGE_TAG: ${{ github.run_number }}
+  CONTAINER_NAME: blog
+  REGISTRY: docker.io
+  IMAGE_NAME: ${{ github.actor }}/nuxt-blog:latest
+
+jobs:
+  push-to-ecr:
+    runs-on: ubuntu-latest
+    steps:
+      - run: docker build --tag hendi-blog:v1 .
+      - name: Push to ECR
+        id: ecr
+        uses: jwalton/gh-ecr-push@v1
+        with:
+          access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          region: ap-southeast-1
+          image: hendi-blog:v1
+
+  pull-from-ecr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pull from ECR
+        id: ecr
+        uses: jwalton/gh-ecr-push@v1
+        with:
+          access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          region: ap-southeast-1
+          image: my-image:dev-${{ github.sha }}
+          local-image: hendi-blog:v1
+          direction: pull
