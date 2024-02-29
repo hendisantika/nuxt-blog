@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://blog.hendisantika.my.id" target="_blank">
-    <img  src="./assets/images/dark.png">
+    <img  src="./assets/images/index_black.png">
   </a>
 </p>
 
@@ -31,10 +31,13 @@ with [Nuxt3](https://nuxt.com), [Nuxt-Content2](https://content.nuxtjs.org/blog/
 
 <p align="center">
   <a href="https://blog.hendisantika.my.id" target="_blank">
-    <img width="1090" src="./assets/images/preview1.png">
-    <img width="1090" src="./assets/images/preview2.png">
-    <img width="1090" src="./assets/images/preview3.png">
-    <img width="1090" src="./assets/images/preview4.png">
+    <img width="1090" src="./assets/images/index_black.png">
+    <img width="1090" src="./assets/images/trending_black.png">
+    <img width="1090" src="./assets/images/trending_white.png">
+    <img width="1090" src="./assets/images/blog_white.png">
+    <img width="1090" src="./assets/images/Blog-Archive.png">
+    <img width="1090" src="./assets/images/categories_black.png">
+    <img width="1090" src="./assets/images/categories_white.png">
     <br>
     Live Demo
   </a>
