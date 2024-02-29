@@ -1,5 +1,8 @@
 # Use an official Node.js, and it should be version 16 and above
 FROM node:20-alpine
+ENV NUXT_HOST=0.0.0.0
+ENV NUXT_PORT=3002
+EXPOSE 3002
 # Set the working directory in the container
 WORKDIR /app
 RUN apk --no-cache add openssh g++ make python3 git
@@ -16,8 +19,7 @@ COPY ./ /app
 # Build the TypeScript code
 RUN pnpm run build
 # Expose the app
-ENV NUXT_HOST=0.0.0.0
-ENV NUXT_PORT=3002
+ENV PORT=3002
 EXPOSE 3002
 # Start the application
 #CMD ["pnpm", "start"]
