@@ -4,5 +4,7 @@ services:
   nuxt-blog:
     image: hendisantika/nuxt-blog:latest
     container_name: nuxt-blog
+    restart: always
     ports:
       - "3002:3002"
+    command: "pnpm run start"
