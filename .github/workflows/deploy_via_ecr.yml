@@ -60,7 +60,7 @@ jobs:
           access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           region: ap-southeast-1
-          image: hendi-blog:{{ env.IMAGE_TAG }}
+          image: hendi-blog:$IMAGE_TAG
 
   pull-from-ecr:
     runs-on: ubuntu-latest
